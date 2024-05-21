@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="img">
+    <file>check.png</file>
+    <file>implante_2.png</file>
+    <file>arrow.svg</file>
+    <file>neodent-logo.png</file>
+    <file>implante.png</file>
+    <file>image_prob.jpg</file>
+    <file>30anosNeo.png</file>
+    <file>logo_neodent.png</file>
+  </qresource>
+</RCC>
