@@ -43,14 +43,13 @@ class results:
                         opt.setCheckable(False)
 
         resultados = self.calculaResultado(list_reponse)
+        self.main.hide()
         BarChart(
             resultados,
             self.main.nome,
             self.main.matricula,
             self.main.setor
         )
-        self.main.confirm_close = False
-        self.main.close()
         createPDF(
             self.main.nome,
             self.main.matricula,
@@ -58,7 +57,7 @@ class results:
             resultados
         )
         self.success = SuccessWindow(
-            self.acertos, self.erros, len(self.list_question)
+            self.acertos, self.erros, len(self.list_question), self.main
         )
         self.success.exec()
 
@@ -91,7 +90,11 @@ class results:
 
 
 class SuccessWindow(QDialog, Ui_Dialog):
-    def __init__(self, acertos: int, erros: int, qtdPerguntas: int) -> None:
+    def __init__(
+            self, acertos: int, erros: int,
+            qtdPerguntas: int, main: 'MainWindow'
+    ) -> None:
+        self.janela = main
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle('Resultados da avaliação - Teste de Nivelamento')
@@ -107,6 +110,23 @@ class SuccessWindow(QDialog, Ui_Dialog):
         self.tab_Results.setItem(0, 1, item_acertos)
         self.tab_Results.setItem(1, 1, item_erros)
         self.tab_Results.setItem(2, 1, item_media)
+
+    def closeEvent(self, event):
+        # Exibe uma mensagem de confirmação ao tentar fechar o diálogo
+        reply = QMessageBox.question(
+            self,
+            'Confirmação de Saída',
+            'Tem certeza que deseja fechar?',
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+
+        if reply == QMessageBox.Yes:
+            event.accept()
+            self.janela.confirm_close = False
+            self.janela.close()
+        else:
+            event.ignore()
 
 
 if __name__ == '__main__':

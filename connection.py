@@ -1,11 +1,16 @@
 import sqlite3
 
 TABLE_NAME = 'Questions'
+DIR = (
+    '\\\\straumann.com\\public\\br03\\pcoudir\\Controle de Qualidade\\'
+    '01. 4400\\01. CQ Geral\\04. Pessoal\\01. Luiz Cheva\\'
+    'bd_testenivelamento\\'
+)
 
 
 class connectionDB:
     def __init__(self) -> None:
-        self.address = 'db/db.sqlite3'
+        self.address = DIR + 'db.sqlite3'
         self.conn = None
 
     def connect(self):

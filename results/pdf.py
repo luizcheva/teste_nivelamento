@@ -5,9 +5,17 @@ from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from PIL import Image
-from pathlib import Path
 from docx2pdf import convert
 from datetime import datetime
+from variables import ROOT_DIR
+
+DIR = (
+    '\\\\straumann.com\\public\\br03\\pcoudir\\Controle de Qualidade\\'
+    '01. 4400\\01. CQ Geral\\04. Pessoal\\01. Luiz Cheva\\'
+    'bd_testenivelamento\\'
+)
+DIR_IMG = ROOT_DIR / 'temp_imagens'
+DIR_IMGS = ROOT_DIR / 'img'
 
 
 class createPDF:
@@ -28,8 +36,6 @@ class createPDF:
         table_cells_property.append(shade_obj)
 
     def resize_image(self, image_path, new_height: float | int = 264.5):
-        ROOT_DIR = Path(__file__).parent
-        DIR_IMG = ROOT_DIR / 'temp_imagens'
         nome_file, extensao = os.path.splitext(os.path.basename(image_path))
         img = Image.open(image_path)
         width, height = img.size
@@ -83,7 +89,10 @@ class createPDF:
         cell_00.width = Inches(3.94)
 
         run_1 = cell_00.paragraphs[0].add_run()
-        run_1.add_picture('img/neodent-logo.png', Inches(2))
+        caminho_logo = DIR_IMGS / 'neodent-logo.png'
+        run_1.add_picture(
+            str(caminho_logo), Inches(2)
+        )
 
         cell_00.paragraphs[0].alignment = WD_TABLE_ALIGNMENT.CENTER
         cell_00.vertical_alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -237,12 +246,14 @@ class createPDF:
 
         agora = datetime.now()
         agora = agora.strftime("%Y-%m-%d %H_%M_%S")
+
         name_file = (
-            f'results/DOC/Teste de Nivelamento - {self.nome}_{self.matricula}_'
+            f'Teste de Nivelamento - {self.nome}_{self.matricula}_'
             f'{self.setor}_{agora}.docx'
         )
-        doc.save(name_file)
-        convert(name_file, 'results/PDF')
+        export_file = DIR + 'DOCX\\' + name_file
+        doc.save(export_file)
+        convert(export_file, DIR + 'PDF')
         return 'Concluido com sucesso!'
 
 
