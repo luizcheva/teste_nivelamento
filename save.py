@@ -75,16 +75,6 @@ class results:
                 self.erros += 1
 
             question['STATUS'] = status
-            print(question['PERGUNTA'])
-            print(resposta_correta)
-            print(resposta_selecionada)
-            print(question['STATUS'])
-            print()
-            print('*' * 50)
-            print()
-        print(
-            f'Total de Acertos: {self.acertos} X Total de erros: {self.erros}.'
-        )
 
         return list_results
 

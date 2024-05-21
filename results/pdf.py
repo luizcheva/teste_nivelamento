@@ -253,8 +253,9 @@ class createPDF:
         )
         export_file = DIR + 'DOCX\\' + name_file
         doc.save(export_file)
+        print('Salvando relatório em PDF.')
         convert(export_file, DIR + 'PDF')
-        return 'Concluido com sucesso!'
+        print('Concluido com sucesso!')
 
 
 if __name__ == '__main__':
